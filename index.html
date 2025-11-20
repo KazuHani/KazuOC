@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kazu | Arctic Dragon</title>
+    <title>Kazu | Arctic Dragon OC</title>
+    <meta name="description" content="Kazu - Arctic Dragon OC. A goofy, fun-loving dragon who treats the world like one big adventure.">
+
+    <!-- Performance: Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Performance: Preload Hero Image for LCP (Largest Contentful Paint) -->
+    <!-- This fetches the main image immediately, before the body is parsed -->
+    <link rel="preload" as="image" href="images/Kazu с.jpg">
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS (Critical CSS) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome for Icons (CSS Version for reliable dynamic switching) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation Library (Deferred) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
 
     <script>
         tailwind.config = {
@@ -77,6 +88,7 @@
             backdrop-filter: blur(5px);
             border: 1px solid rgba(56, 189, 248, 0.2);
             transition: all 0.3s ease;
+            will-change: transform; /* Optimization: hints browser to create layer */
         }
 
         .glass-card:hover {
@@ -93,6 +105,7 @@
             -webkit-text-fill-color: transparent;
             background-size: 200% auto;
             animation: shine 3s linear infinite;
+            will-change: background-position;
         }
 
         @keyframes shine {
@@ -117,6 +130,18 @@
             object-fit: cover;
             width: 100%;
         }
+
+        /* Performance: Content Visibility */
+        /* Skips rendering off-screen content until needed */
+        .optimize-render {
+            content-visibility: auto;
+            contain-intrinsic-size: 1000px; /* Estimated height to prevent scrollbar jumping */
+        }
+
+        /* Utility class for pixel art */
+        .rendering-pixelated {
+            image-rendering: pixelated;
+        }
     </style>
 </head>
 <body>
@@ -124,42 +149,8 @@
     <!-- Background Animation -->
     <canvas id="snow-canvas"></canvas>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-panel border-b border-white/10 top-0">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <span class="font-display font-bold text-2xl text-ice-300 tracking-wider">KAZU<span class="text-ice-500">.</span></span>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#home" class="hover:text-ice-300 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
-                        <a href="#about" class="hover:text-ice-300 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
-                        <a href="#lore" class="hover:text-ice-300 px-3 py-2 rounded-md text-sm font-medium transition-colors">Lore</a>
-                        <a href="#gallery" class="hover:text-ice-300 px-3 py-2 rounded-md text-sm font-medium transition-colors">Gallery</a>
-                    </div>
-                </div>
-                <!-- Mobile menu button -->
-                <div class="-mr-2 flex md:hidden">
-                    <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="inline-flex items-center justify-center p-2 rounded-md text-ice-200 hover:text-white hover:bg-ice-900 focus:outline-none">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div class="hidden md:hidden glass-panel" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#home" class="block hover:text-ice-300 px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="#about" class="block hover:text-ice-300 px-3 py-2 rounded-md text-base font-medium">About</a>
-                <a href="#lore" class="block hover:text-ice-300 px-3 py-2 rounded-md text-base font-medium">Lore</a>
-                <a href="#gallery" class="block hover:text-ice-300 px-3 py-2 rounded-md text-base font-medium">Gallery</a>
-            </div>
-        </div>
-    </nav>
-
     <!-- Hero Section -->
-    <section id="home" class="relative min-h-screen flex items-center justify-center pt-24 pb-12 md:pt-16 md:pb-0">
+    <section id="home" class="relative min-h-screen flex items-center justify-center py-2 md:py-4">
         <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
             
             <!-- Text Content -->
@@ -175,7 +166,7 @@
                 </p>
                 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <a href="#about" class="px-8 py-3 bg-ice-600 hover:bg-ice-500 text-white font-semibold rounded-lg transition-all shadow-[0_0_20px_rgba(14,165,233,0.5)] text-center">
+                    <a href="#about" class="px-8 py-3 bg-ice-600 hover:bg-ice-500 text-white font-semibold rounded-lg transition-all shadow-[0_0_20px_rgba(14,165,233,0.5)] text-center transform hover:scale-105">
                         View Profile
                     </a>
                     <a href="#gallery" class="px-8 py-3 glass-card text-ice-200 font-semibold rounded-lg hover:text-white text-center">
@@ -189,11 +180,15 @@
                 <div class="relative w-72 h-72 md:w-[500px] md:h-[500px]">
                     <!-- Decorative Circle -->
                     <div class="absolute inset-0 bg-gradient-to-tr from-ice-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-                    <!-- Character Image -->
+                    <!-- Main Character Art -->
+                    <!-- Added sizes attribute for future responsive capability -->
                     <img 
                         src="images/Kazu с.jpg" 
                         alt="Kazu Character Art" 
+                        width="500" height="500"
                         loading="eager"
+                        decoding="async"
+                        sizes="(max-width: 768px) 90vw, 500px"
                         class="relative w-full h-full object-cover rounded-3xl border-2 border-ice-400/30 shadow-2xl mask-image-gradient"
                         style="mask-image: linear-gradient(to bottom, black 80%, transparent 100%);"
                     >
@@ -213,7 +208,7 @@
     </section>
 
     <!-- Core Stats Section -->
-    <section id="about" class="py-20 relative">
+    <section id="about" class="py-8 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">Core Data</h2>
@@ -285,7 +280,8 @@
     </section>
 
     <!-- Lore & Personality Section -->
-    <section id="lore" class="py-20 bg-black/20">
+    <!-- Optimized: content-visibility auto allows browser to skip rendering until scroll -->
+    <section id="lore" class="py-20 bg-black/20 optimize-render">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 
@@ -339,16 +335,9 @@
                             <i class="fas fa-thumbs-up mr-3"></i> Likes
                         </h3>
                         <div class="glass-card p-6 rounded-2xl">
-                            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <li class="flex items-center text-gray-300"><i class="fas fa-music text-ice-400 w-6"></i> Music & Internet</li>
-                                <li class="flex items-center text-gray-300"><i class="fas fa-coffee text-ice-400 w-6"></i> Iced Boba Coffee</li>
-                                <li class="flex items-center text-gray-300"><i class="fas fa-bowl-food text-ice-400 w-6"></i> Hot Ramen</li>
-                                <li class="flex items-center text-gray-300"><i class="fas fa-snowflake text-ice-400 w-6"></i> Heavy Snow Days</li>
-                                <li class="flex items-center text-gray-300"><i class="fas fa-wand-magic-sparkles text-ice-400 w-6"></i> Using Magic</li>
-                                <li class="flex items-center text-gray-300"><i class="fas fa-pump-soap text-ice-400 w-6"></i> Hair Products</li>
-                                <li class="flex items-center text-gray-300"><i class="fas fa-shower text-ice-400 w-6"></i> Hot Showers</li>
-                                <li class="flex items-center text-gray-300"><i class="fas fa-heart text-ice-400 w-6"></i> Flirty Teasing</li>
-                            </ul>
+                            <p class="text-gray-300 mb-4">
+                                Kazu enjoys alone time in his room listening to music and browsing the internet on his iPad, Iced Boba Coffee, Hot bowls of ramen, hugs, being praised by humans, heavy snow days, using his magic, playing pranks, teasing, platonic flirty teasing, being a goofball, Showers, and Hair products like conditioner and body washer.
+                            </p>
                         </div>
                     </div>
 
@@ -358,7 +347,7 @@
     </section>
 
     <!-- Gallery Section -->
-    <section id="gallery" class="py-20">
+    <section id="gallery" class="py-20 optimize-render">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">Visual Reference</h2>
@@ -368,28 +357,55 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Image 1 -->
                 <div class="group relative rounded-2xl overflow-hidden cursor-pointer" data-aos="fade-up" data-aos-delay="100">
-                    <img src="images/Kazu Hani Pixelart.gif" alt="Kazu Pixel Art" loading="lazy" class="gallery-img transition-transform duration-500 group-hover:scale-110">
+                    <!-- Added sizes attribute and rendering-pixelated class for crisp pixel art scaling -->
+                    <img 
+                        src="images/Kazu Hani Pixelart.gif" 
+                        alt="Pixel Art Animation" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="400" height="300"
+                        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 45vw, 30vw"
+                        class="gallery-img transition-transform duration-500 group-hover:scale-110 rendering-pixelated"
+                    >
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                        <h4 class="text-white font-bold text-lg">Pixel Kazu</h4>
-                        <p class="text-ice-300 text-sm">Animated Pixelart</p>
+                        <h4 class="text-white font-bold text-lg">Pixel Art</h4>
+                        <p class="text-ice-300 text-sm">Animated Version</p>
                     </div>
                 </div>
 
                 <!-- Image 2 -->
                 <div class="group relative rounded-2xl overflow-hidden cursor-pointer" data-aos="fade-up" data-aos-delay="200">
-                    <img src="images/Kazu Ref sheet.png" alt="Kazu Reference Sheet" loading="lazy" class="gallery-img transition-transform duration-500 group-hover:scale-110">
+                    <!-- Added sizes attribute -->
+                    <img 
+                        src="images/Kazu Ref sheet.jpg" 
+                        alt="Reference Sheet" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="400" height="300"
+                        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 45vw, 30vw"
+                        class="gallery-img transition-transform duration-500 group-hover:scale-110"
+                    >
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                        <h4 class="text-white font-bold text-lg">Reference Sheet</h4>
-                        <p class="text-ice-300 text-sm">Character Details</p>
+                        <h4 class="text-white font-bold text-lg">Design Reference</h4>
+                        <p class="text-ice-300 text-sm">Full Body Layout</p>
                     </div>
                 </div>
 
                 <!-- Image 3 -->
                 <div class="group relative rounded-2xl overflow-hidden cursor-pointer" data-aos="fade-up" data-aos-delay="300">
-                    <img src="images/20250816_181337_x16_drawing.jpg" alt="Kazu Drawing" loading="lazy" class="gallery-img transition-transform duration-500 group-hover:scale-110">
+                    <!-- Added sizes attribute -->
+                    <img 
+                        src="images/20250816_181337_x16_drawing.jpg" 
+                        alt="Recent Drawing" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="400" height="300"
+                        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 45vw, 30vw"
+                        class="gallery-img transition-transform duration-500 group-hover:scale-110"
+                    >
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                        <h4 class="text-white font-bold text-lg">Sketch</h4>
-                        <p class="text-ice-300 text-sm">Digital Drawing</p>
+                        <h4 class="text-white font-bold text-lg">Sketch Art</h4>
+                        <p class="text-ice-300 text-sm">Detailed Portrait</p>
                     </div>
                 </div>
             </div>
@@ -397,7 +413,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-white/10 bg-black/40 py-12 relative">
+    <footer class="border-t border-white/10 bg-black/40 py-12 relative optimize-render">
         <!-- Toast Notification for Discord -->
         <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-ice-600 text-white px-6 py-2 rounded-full shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50">
             Discord Copied: kazu_hani
@@ -409,37 +425,37 @@
             <!-- Social Links Grid -->
             <div class="flex flex-wrap justify-center gap-6 mb-8">
                 <!-- X / Twitter -->
-                <a href="https://x.com/Kazu_Hani" target="_blank" class="group relative text-gray-400 hover:text-ice-400 transition-colors">
+                <a href="https://x.com/Kazu_Hani" target="_blank" rel="noopener noreferrer" class="group relative text-gray-400 hover:text-ice-400 transition-colors">
                     <i class="fa-brands fa-x-twitter text-2xl"></i>
                     <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">X</span>
                 </a>
 
                 <!-- TikTok -->
-                <a href="https://www.tiktok.com/@kazu_hani" target="_blank" class="group relative text-gray-400 hover:text-ice-400 transition-colors">
+                <a href="https://www.tiktok.com/@kazu_hani" target="_blank" rel="noopener noreferrer" class="group relative text-gray-400 hover:text-ice-400 transition-colors">
                     <i class="fa-brands fa-tiktok text-2xl"></i>
                     <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">TikTok</span>
                 </a>
 
                 <!-- YouTube -->
-                <a href="https://www.youtube.com/@Kazu_Hani" target="_blank" class="group relative text-gray-400 hover:text-red-500 transition-colors">
+                <a href="https://www.youtube.com/@Kazu_Hani" target="_blank" rel="noopener noreferrer" class="group relative text-gray-400 hover:text-red-500 transition-colors">
                     <i class="fa-brands fa-youtube text-2xl"></i>
                     <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">YouTube</span>
                 </a>
 
                 <!-- Steam -->
-                <a href="https://steamcommunity.com/id/Kazu-Hani/" target="_blank" class="group relative text-gray-400 hover:text-blue-400 transition-colors">
+                <a href="https://steamcommunity.com/id/Kazu-Hani/" target="_blank" rel="noopener noreferrer" class="group relative text-gray-400 hover:text-blue-400 transition-colors">
                     <i class="fa-brands fa-steam text-2xl"></i>
                     <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Steam</span>
                 </a>
 
                 <!-- Reddit -->
-                <a href="https://www.reddit.com/user/Korat24/" target="_blank" class="group relative text-gray-400 hover:text-orange-500 transition-colors">
+                <a href="https://www.reddit.com/user/Korat24/" target="_blank" rel="noopener noreferrer" class="group relative text-gray-400 hover:text-orange-500 transition-colors">
                     <i class="fa-brands fa-reddit text-2xl"></i>
                     <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Reddit</span>
                 </a>
 
                 <!-- MyAnimeList -->
-                <a href="https://myanimelist.net/animelist/Kazu_Hani" target="_blank" class="group relative text-gray-400 hover:text-blue-600 transition-colors">
+                <a href="https://myanimelist.net/animelist/Kazu_Hani" target="_blank" rel="noopener noreferrer" class="group relative text-gray-400 hover:text-blue-600 transition-colors">
                     <i class="fa-solid fa-list text-2xl"></i>
                     <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity w-max">MyAnimeList</span>
                 </a>
@@ -459,45 +475,143 @@
     </footer>
 
     <!-- Back to Top Button -->
-    <a href="#home" id="to-top-btn" class="fixed bottom-5 right-5 z-50 p-3 rounded-full bg-ice-600 text-white shadow-lg hidden hover:bg-ice-500 transition-all">
+    <button id="backToTop" aria-label="Back to Top" class="fixed bottom-8 right-8 bg-ice-600/80 text-white p-4 rounded-full shadow-[0_0_15px_rgba(56,189,248,0.5)] backdrop-blur-sm border border-ice-400/30 translate-y-20 opacity-0 transition-all duration-500 hover:bg-ice-500 hover:scale-110 z-50 focus:outline-none focus:ring-2 focus:ring-ice-400">
         <i class="fas fa-arrow-up"></i>
-    </a>
+    </button>
+
+    <!-- Sound Control Button -->
+    <!-- Updated: Added 'hidden md:block' to hide on mobile devices -->
+    <button id="soundToggle" aria-label="Toggle Sound" class="hidden md:block fixed bottom-8 right-24 bg-ice-900/80 text-white p-4 rounded-full shadow-[0_0_15px_rgba(56,189,248,0.5)] backdrop-blur-sm border border-ice-400/30 transition-all duration-500 hover:bg-ice-800 hover:scale-110 z-50 focus:outline-none focus:ring-2 focus:ring-ice-400 opacity-0 translate-y-20 pointer-events-none">
+        <i class="fas fa-volume-mute" id="soundIcon"></i>
+    </button>
+
+    <!-- Audio Element -->
+    <audio id="windAudio" loop>
+        <source src="sound/wind.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Discord Copy Function
-        function copyDiscord() {
-            const discordUser = "kazu_hani";
+        // Defer initialization until DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Audio Logic
+            const audio = document.getElementById('windAudio');
+            const soundBtn = document.getElementById('soundToggle');
+            const soundIcon = document.getElementById('soundIcon');
             
-            // Create temporary input to copy text
-            const tempInput = document.createElement("input");
-            tempInput.value = discordUser;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
+            // Set ambient volume
+            audio.volume = 0.3;
 
-            // Show Toast
-            const toast = document.getElementById('toast');
-            toast.classList.remove('opacity-0');
+            function updateSoundIcon(isPlaying) {
+                if (isPlaying) {
+                    // Reset classes and add playing icon
+                    soundIcon.className = 'fas fa-volume-high';
+                    soundBtn.classList.add('text-ice-300');
+                } else {
+                    // Reset classes and add mute icon
+                    soundIcon.className = 'fas fa-volume-mute';
+                    soundBtn.classList.remove('text-ice-300');
+                }
+            }
+
+            // Attempt Auto-play on load
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Autoplay started successfully.
+                    // Button remains hidden as per instruction.
+                    updateSoundIcon(true);
+                }).catch(error => {
+                    // Autoplay was prevented. Show the button.
+                    console.log("Autoplay prevented. Showing toggle button.");
+                    soundBtn.classList.remove('opacity-0', 'translate-y-20', 'pointer-events-none');
+                    updateSoundIcon(false);
+                });
+            }
+
+            // Toggle Button Logic
+            soundBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    // Fixed: Catch promise rejection to prevent AbortError
+                    audio.play().then(() => {
+                        updateSoundIcon(true);
+                    }).catch(e => {
+                        console.log("Playback failed or interrupted:", e);
+                        updateSoundIcon(false);
+                    });
+                } else {
+                    audio.pause();
+                    updateSoundIcon(false);
+                }
+            });
+
+            // Back to Top Logic
+            const backToTopBtn = document.getElementById('backToTop');
             
-            setTimeout(() => {
-                toast.classList.add('opacity-0');
-            }, 2000);
-        }
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.remove('translate-y-20', 'opacity-0');
+                } else {
+                    backToTopBtn.classList.add('translate-y-20', 'opacity-0');
+                }
+            });
 
-        // Initialize Animate On Scroll
-        AOS.init({
-            once: true,
-            offset: 100,
-            duration: 800,
-            easing: 'ease-out-cubic',
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Discord Copy Function
+            window.copyDiscord = function() {
+                const discordUser = "kazu_hani";
+                
+                // Create temporary input to copy text
+                const tempInput = document.createElement("input");
+                tempInput.value = discordUser;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+
+                // Show Toast
+                const toast = document.getElementById('toast');
+                toast.classList.remove('opacity-0');
+                
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                }, 2000);
+            }
+
+            // Initialize Animate On Scroll if available
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    once: true,
+                    offset: 100,
+                    duration: 800,
+                    easing: 'ease-out-cubic',
+                });
+            } else {
+                // Fallback if AOS loads late
+                window.addEventListener('load', () => {
+                    if (typeof AOS !== 'undefined') {
+                        AOS.init({
+                            once: true,
+                            offset: 100,
+                            duration: 800,
+                            easing: 'ease-out-cubic',
+                        });
+                    }
+                });
+            }
         });
 
-        // Snow/Ice Canvas Animation
+        // Snow/Ice Canvas Animation (Optimized)
         const canvas = document.getElementById('snow-canvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { alpha: true }); // Hint for transparency
 
         let width = window.innerWidth;
         let height = window.innerHeight;
@@ -534,7 +648,7 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(186, 230, 253, ${this.opacity})`; // Ice blue color
+                ctx.fillStyle = `rgba(186, 230, 253, ${this.opacity})`;
                 ctx.fill();
             }
         }
@@ -544,6 +658,12 @@
         }
 
         function animate() {
+            // Optimization: Stop animating if tab is hidden
+            if (document.hidden) {
+                requestAnimationFrame(animate);
+                return;
+            }
+
             ctx.clearRect(0, 0, width, height);
             
             particles.forEach(particle => {
@@ -556,23 +676,16 @@
 
         animate();
 
-        // Resize handler
+        // Debounced Resize handler
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-        });
-
-        // Back to top button logic
-        const toTopBtn = document.getElementById('to-top-btn');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                toTopBtn.classList.remove('hidden');
-            } else {
-                toTopBtn.classList.add('hidden');
-            }
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+            }, 100);
         });
     </script>
 </body>
